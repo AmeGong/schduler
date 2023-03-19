@@ -16,10 +16,15 @@
     <description>经典DDD的 Infrastructure layer，负责技术底座的实现</description>
 
     <dependencies>
-        <!-- <dependency>
+        <dependency>
             <groupId>com.example</groupId>
             <artifactId>scheduler-domain</artifactId>
-        </dependency> -->
+        </dependency>
+
+        <dependency>
+            <groupId>com.example</groupId>
+            <artifactId>scheduler-types</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.mapstruct</groupId>
