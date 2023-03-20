@@ -1,21 +1,19 @@
 package com.example.types;
 
-import org.springframework.util.StringUtils;
-
 public class RecordId implements EntityId {
 
-    private String recordId;
+    private Integer recordId;
 
-    RecordId(String recordId) {
-        if (StringUtils.isEmpty(recordId)) {
-            throw new RuntimeException("The input paramter recordId is empty!");
+    RecordId(Integer recordId) {
+        if (recordId == null) {
+            throw new RuntimeException("The input paramter recordId is null!");
         }
         this.recordId = recordId;
     }
 
     @Override
     public String getId() {
-        return recordId;
+        return String.valueOf(recordId);
     }
 
     

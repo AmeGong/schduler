@@ -2,9 +2,9 @@ package com.example.domain.entity;
 
 import java.util.Date;
 
-import com.example.domain.enums.TaskStatus;
-import com.example.domain.enums.TaskType;
 import com.example.types.RecordId;
+import com.example.types.enums.TaskStatus;
+import com.example.types.enums.TaskType;
 
 public class TaskRecord implements BaseEntity<RecordId> {
     
