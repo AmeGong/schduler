@@ -5,7 +5,7 @@ import java.util.List;
 import com.example.domain.entity.BaseEntity;
 import com.example.types.EntityId;
 
-public interface Repository<T extends BaseEntity, K extends EntityId> {
+public interface Repository<T extends BaseEntity<K>, K extends EntityId> {
 
     /**
      * find the entity
