@@ -67,4 +67,12 @@ public class TaskRecordRepositoryImpl implements TaskRecordRepository {
         example.createCriteria().andNextExeTimeLessThan(exeTime).andTaskStatusIn(statusList);
         return TaskRecordConvertor.convertFromDO(taskRecordMapper.selectByExample(example));
     }
+
+    public TaskRecordMapper getTaskRecordMapper() {
+        return taskRecordMapper;
+    }
+
+    public void setTaskRecordMapper(TaskRecordMapper taskRecordMapper) {
+        this.taskRecordMapper = taskRecordMapper;
+    }
 }
