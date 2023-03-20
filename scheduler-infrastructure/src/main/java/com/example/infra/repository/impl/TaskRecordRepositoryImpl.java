@@ -39,18 +39,16 @@ public class TaskRecordRepositoryImpl implements TaskRecordRepository {
 
     @Override
     public int save(TaskRecord entity) {
-        int result;
         if (entity.getRecordId() != null) {
             // The record does exist, update it
             TaskRecordDOExample example = new TaskRecordDOExample();
             example.createCriteria().andRecordIdEqualTo(Integer.valueOf(entity.getRecordId().getId()));
-            result = taskRecordMapper.updateByExampleSelective(TaskRecordConvertor.convertToDO(entity), example);
+            return taskRecordMapper.updateByExampleSelective(TaskRecordConvertor.convertToDO(entity), example);
 
         } else {
             // The record doesn't exist, insert it
-            result = taskRecordMapper.insert(TaskRecordConvertor.convertToDO(entity));
+            return taskRecordMapper.insert(TaskRecordConvertor.convertToDO(entity));
         }
-        return result;
     }
 
     @Override
