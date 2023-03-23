@@ -5,7 +5,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication(proxyBeanMethods = false)
+@SpringBootApplication
 @MapperScan("com.example.infra.dao")
 public class Bootstrap {
 
