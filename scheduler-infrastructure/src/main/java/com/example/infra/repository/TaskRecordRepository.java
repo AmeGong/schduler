@@ -16,5 +16,5 @@ public interface TaskRecordRepository extends Repository<TaskRecord, RecordId> {
      * @param exeTime
      * @return
      */
-    List<TaskRecord> find(Set<TaskStatus> statusSet, Date exeTime);
+    List<Integer> find(Set<TaskStatus> statusSet, Date exeTime);
 }

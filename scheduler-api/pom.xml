@@ -13,14 +13,8 @@
     <description>对外暴露RPC接口的声明</description>
 
     <dependencies>
-        <dependency>
-            <groupId>io.github.dddplus</groupId>
-            <artifactId>dddplus-spec</artifactId>
-        </dependency>
 
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>
+
+
     </dependencies>
 </project>

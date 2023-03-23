@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import com.example.domain.entity.TaskRecord;
 import com.example.infra.convertor.TaskRecordConvertor;
 import com.example.infra.dao.auto.TaskRecordMapper;
+import com.example.infra.dao.manual.TaskRecordManualMapper;
 import com.example.infra.po.TaskRecordDO;
 import com.example.infra.po.TaskRecordDOExample;
 import com.example.infra.repository.TaskRecordRepository;
@@ -23,6 +24,9 @@ public class TaskRecordRepositoryImpl implements TaskRecordRepository {
 
     @Autowired
     private TaskRecordMapper taskRecordMapper;
+
+    @Autowired
+    private TaskRecordManualMapper taskRecordManualMapper;
 
     @Override
     public List<TaskRecord> find(TaskRecord entity) {
@@ -59,11 +63,9 @@ public class TaskRecordRepositoryImpl implements TaskRecordRepository {
     }
 
     @Override
-    public List<TaskRecord> find(Set<TaskStatus> statusSet, Date exeTime) {
+    public List<Integer> find(Set<TaskStatus> statusSet, Date exeTime) {
         List<String> statusList = statusSet.stream().map(TaskStatus::name).collect(Collectors.toList());
-        TaskRecordDOExample example = new TaskRecordDOExample();
-        example.createCriteria().andNextExeTimeLessThan(exeTime).andTaskStatusIn(statusList);
-        return TaskRecordConvertor.convertFromDO(taskRecordMapper.selectByExample(example));
+        return taskRecordManualMapper.selectRecordId(statusList, exeTime);
     }
 
     public TaskRecordMapper getTaskRecordMapper() {
@@ -73,4 +75,13 @@ public class TaskRecordRepositoryImpl implements TaskRecordRepository {
     public void setTaskRecordMapper(TaskRecordMapper taskRecordMapper) {
         this.taskRecordMapper = taskRecordMapper;
     }
+
+    public TaskRecordManualMapper getTaskRecordManualMapper() {
+        return taskRecordManualMapper;
+    }
+
+    public void setTaskRecordManualMapper(TaskRecordManualMapper taskRecordManualMapper) {
+        this.taskRecordManualMapper = taskRecordManualMapper;
+    }
+
 }

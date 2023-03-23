@@ -10,12 +10,10 @@
 
     <artifactId>scheduler-types</artifactId>
     <name>scheduler-types</name>
+    <version>1.0-SNAPSHOT</version>
     <description>DDDplus</description>
 
     <dependencies>
-        <dependency>
-            <groupId>io.github.dddplus</groupId>
-            <artifactId>dddplus-runtime</artifactId>
-        </dependency>
+
     </dependencies>
 </project>

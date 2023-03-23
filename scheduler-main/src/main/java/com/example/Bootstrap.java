@@ -1,18 +1,15 @@
 package com.example;
 
-import java.util.concurrent.CountDownLatch;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-// 系统启动类.
+import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication(proxyBeanMethods = false)
+@MapperScan("com.example.infra.dao")
 public class Bootstrap {
 
     public static void main(String[] args) throws Exception {
-        new ClassPathXmlApplicationContext("applicationContext.xml");
-        CountDownLatch latch = new CountDownLatch(1);
-        try {
-            latch.await();
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
+        SpringApplication.run(Bootstrap.class, args);
     }
 }
