@@ -1,21 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="error" monitorInterval="3600">
-    <properties>
-        <property name="patternLayout">[%X{_tid}] %d [%t] %-5p [%c] [%L] - %m%n</property>
-        <property name="root.log.level">debug</property>
-    </properties>
+<Configuration>
+    <Properties>
+        <Property name="log_dir">./logs/scheduler</Property>
+        <Property name="log_pattern">%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</Property>
+    </Properties>
     <Appenders>
-        <Console name="console" target="SYSTEM_OUT" follow="true">
-            <PatternLayout charset="UTF-8" pattern="${patternLayout}"/>
+        <Console name="CONSOLE" target="SYSTEM_OUT">
+            <PatternLayout pattern="${log_pattern}" />
         </Console>
+        <RollingFile name="APP_DEFAULT"
+            fileName="${log_dir}/app-default.log"
+            filePattern="${log_dir}/app-default.%d{yyyy-MM-dd}.log" >
+            <Policies>
+                <SizeBasedTriggeringPolicy size="20MB" />
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+            <PatternLayout pattern="${log_pattern}" />
+        </RollingFile>
+
+        <RollingFile name="COMMON_ERROR"
+            fileName="${log_dir}/common-error.log"
+            filePattern="${log_dir}/common-error.%d{yyyy-MM-dd}.log">
+            <Policies>
+                <SizeBasedTriggeringPolicy size="20MB" />
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+            <PatternLayout pattern="${log_pattern}" />
+        </RollingFile>
+
+
+        <RollingFile name="DAL_DIGEST"
+            fileName="${log_dir}/dal_digest.log"
+            filePattern="${log_dir}/dal_digest.%d{yyyy-MM-dd}.log">
+            <Policies>
+                <SizeBasedTriggeringPolicy size="20MB" />
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+            <PatternLayout pattern="${log_pattern}" />
+        </RollingFile>
     </Appenders>
 
     <Loggers>
-        <Root level="${root.log.level}" includeLocation="true">
-            <AppenderRef ref="console"/>
+        <Root level="error">
+            <AppenderRef ref="CONSOLE" />
+            <AppenderRef ref="APP_DEFAULT" />
+            <AppenderRef ref="COMMON_ERROR" />
         </Root>
-        <logger name="org.springframework" level="error" additivity="false" includeLocation="true">
-            <AppenderRef ref="console"/>
-        </logger>
+
+        <Logger name="DAL_DIGEST" additivity="false" level="info">
+            <AppenderRef ref="DAL_DIGEST" />
+            <AppenderRef ref="CONSOLE" />
+        </Logger>
     </Loggers>
 </Configuration>

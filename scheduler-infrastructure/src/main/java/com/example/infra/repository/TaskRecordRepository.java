@@ -14,7 +14,7 @@ public interface TaskRecordRepository extends Repository<TaskRecord, RecordId> {
      * Find all the TaskRecord where its status is in the statusSet and its nextExeTime is before the exeTime;
      * @param statusSet
      * @param exeTime
-     * @return
+     * @return the primary keys
      */
     List<Integer> find(Set<TaskStatus> statusSet, Date exeTime);
 }

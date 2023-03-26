@@ -2,27 +2,62 @@ package com.example.domain.entity;
 
 import java.util.Date;
 
+import javax.validation.constraints.NotNull;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import com.example.domain.service.TaskHandler;
+import com.example.domain.service.TaskHandlerFactory;
 import com.example.types.RecordId;
 import com.example.types.enums.TaskStatus;
 import com.example.types.enums.TaskType;
 
 public class TaskRecord implements BaseEntity<RecordId> {
     
+    protected static final Log LOG = LogFactory.getLog(TaskRecord.class);
+    
+    @NotNull
     private RecordId recordId;
 
+    @NotNull
     private TaskType taskType;
 
+    @NotNull
     private TaskStatus taskStatus;
 
+    /**
+     * The business context of the task record
+     */
     private String taskContext;
 
-    private Integer extTimes;
+    /**
+     * The times of the task has been executed
+     */
+    @NotNull
+    private Integer exeTimes;
 
+    @NotNull
     private Date gmtCreated;
 
+    @NotNull
     private Date gmtModified;
 
+    /**
+     * When the task will be executed next time;
+     */
+    @NotNull
     private Date nextExeTime;
+
+    public boolean schedulable() {
+        return (taskStatus == TaskStatus.PROCESSING) &&
+                (exeTimes <= taskType.getMaxRetryTimes());
+    }
+
+    public boolean execute() {
+        TaskHandler taskHandler = TaskHandlerFactory.get(taskType);
+        return taskHandler.handle(this);
+    }
 
     public RecordId getRecordId() {
         return recordId;
@@ -56,14 +91,6 @@ public class TaskRecord implements BaseEntity<RecordId> {
         this.taskContext = taskContext;
     }
 
-    public Integer getExtTimes() {
-        return extTimes;
-    }
-
-    public void setExtTimes(Integer extTimes) {
-        this.extTimes = extTimes;
-    }
-
     public Date getGmtCreated() {
         return gmtCreated;
     }
@@ -86,6 +113,14 @@ public class TaskRecord implements BaseEntity<RecordId> {
 
     public void setNextExeTime(Date nextExeTime) {
         this.nextExeTime = nextExeTime;
+    }
+
+    public Integer getExeTimes() {
+        return exeTimes;
+    }
+
+    public void setExeTimes(Integer exeTimes) {
+        this.exeTimes = exeTimes;
     }
 
     

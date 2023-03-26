@@ -4,9 +4,9 @@ public class RecordId implements EntityId {
 
     private Integer recordId;
 
-    RecordId(Integer recordId) {
-        if (recordId == null) {
-            throw new RuntimeException("The input paramter recordId is null!");
+    RecordId(int recordId) {
+        if (recordId <= 0) {
+            throw new RuntimeException("The input parameter recordId is less than 0!");
         }
         this.recordId = recordId;
     }

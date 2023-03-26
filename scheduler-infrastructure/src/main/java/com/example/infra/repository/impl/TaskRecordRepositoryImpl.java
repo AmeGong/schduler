@@ -5,6 +5,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import com.example.domain.entity.TaskRecord;
 import com.example.infra.convertor.TaskRecordConvertor;
 import com.example.infra.dao.auto.TaskRecordMapper;
@@ -34,7 +38,8 @@ public class TaskRecordRepositoryImpl implements TaskRecordRepository {
     }
 
     @Override
-    public TaskRecord find(EntityId entityId) {
+    public TaskRecord find(@NotNull EntityId entityId) {
+        validate(entityId);
         TaskRecordDOExample example = new TaskRecordDOExample();
         example.createCriteria().andRecordIdEqualTo(Integer.valueOf(entityId.getId()));
         List<TaskRecordDO> result = taskRecordMapper.selectByExample(example);
@@ -42,7 +47,8 @@ public class TaskRecordRepositoryImpl implements TaskRecordRepository {
     }
 
     @Override
-    public int save(TaskRecord entity) {
+    public int save(@NotNull TaskRecord entity) {
+        validate(entity);
         if (entity.getRecordId() != null) {
             // The record does exist, update it
             TaskRecordDOExample example = new TaskRecordDOExample();
@@ -51,21 +57,29 @@ public class TaskRecordRepositoryImpl implements TaskRecordRepository {
 
         } else {
             // The record doesn't exist, insert it
-            return taskRecordMapper.insert(TaskRecordConvertor.convertToDO(entity));
+            return taskRecordMapper.insertSelective(TaskRecordConvertor.convertToDO(entity));
         }
     }
 
     @Override
-    public int delete(EntityId entityId) {
+    public int delete(@NotNull EntityId entityId) {
+        validate(entityId);
         TaskRecordDOExample example = new TaskRecordDOExample();
         example.createCriteria().andRecordIdEqualTo(Integer.valueOf(entityId.getId()));
         return taskRecordMapper.deleteByExample(example);
     }
 
     @Override
-    public List<Integer> find(Set<TaskStatus> statusSet, Date exeTime) {
+    public List<Integer> find(@NotEmpty Set<TaskStatus> statusSet, @NotNull Date exeTime) {
+        validate(statusSet);
+        validate(exeTime);
         List<String> statusList = statusSet.stream().map(TaskStatus::name).collect(Collectors.toList());
         return taskRecordManualMapper.selectRecordId(statusList, exeTime);
+    }
+
+    @Override
+    public TaskRecord lock(@NotNull EntityId entityId) {
+        return TaskRecordConvertor.convertFromDO(taskRecordManualMapper.lock(Integer.valueOf(entityId.getId())));
     }
 
     public TaskRecordMapper getTaskRecordMapper() {

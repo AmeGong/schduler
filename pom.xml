@@ -11,7 +11,7 @@
   <properties>
     <maven.compiler.target>17</maven.compiler.target>
     <maven.compiler.source>17</maven.compiler.source>
-     <java.version>17</java.version>
+    <java.version>17</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <slf4j.version>2.20.0</slf4j.version>
@@ -19,6 +19,11 @@
     <junit.version>4.13.2</junit.version>
     <jacoco.version>0.8.5</jacoco.version>
     <spring.version>3.0.0</spring.version>
+
+    <validation-api.version>2.0.1.Final</validation-api.version>
+    <hibernate-validator.version>6.0.13.Final</hibernate-validator.version>
+    <javax.el.version>3.0.0</javax.el.version>
+
     <junit-vintage-engine.version>5.7.2</junit-vintage-engine.version>
     <mybatis-spring-boot-starter.version>3.0.0</mybatis-spring-boot-starter.version>
   </properties>
@@ -86,13 +91,33 @@
         <artifactId>log4j-core</artifactId>
         <version>${slf4j.version}</version>
       </dependency>
+      <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-jcl</artifactId>
+        <version>${slf4j.version}</version>
+      </dependency>
 
+      <dependency>
+        <groupId>javax.validation</groupId>
+        <artifactId>validation-api</artifactId>
+        <version>${validation-api.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.hibernate.validator</groupId>
+        <artifactId>hibernate-validator</artifactId>
+        <version>${hibernate-validator.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.glassfish</groupId>
+        <artifactId>javax.el</artifactId>
+        <version>${javax.el.version}</version>
+      </dependency>
       <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter -->
-<dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter</artifactId>
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter</artifactId>
         <version>${spring.version}</version>
-</dependency>
+      </dependency>
 
       <!-- https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter -->
       <dependency>
@@ -134,17 +159,17 @@
         </executions>
       </plugin>
     </plugins>
-  <resources>
-    <resource>
-      <directory>src/main/resources</directory>
-      <includes>
-        <include>**/*.*</include>
-      </includes>
-    </resource>
-  </resources>
-</build>
-<modules>
-<module>scheduler-application</module>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <includes>
+          <include>**/*.*</include>
+        </includes>
+      </resource>
+    </resources>
+  </build>
+  <modules>
+    <module>scheduler-application</module>
     <module>scheduler-facade</module>
     <module>scheduler-domain</module>
     <module>scheduler-api</module>

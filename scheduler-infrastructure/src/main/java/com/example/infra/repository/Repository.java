@@ -1,12 +1,26 @@
 package com.example.infra.repository;
 
 import java.util.List;
+import java.util.Set;
 
 import com.example.domain.entity.BaseEntity;
 import com.example.types.EntityId;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import javax.validation.Validation;
+import javax.validation.Validator;
+
 public interface Repository<T extends BaseEntity<K>, K extends EntityId> {
 
+    public static final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+
+    default void validate(Object objects){
+        Set<ConstraintViolation<Object>> violations = Repository.validator.validate(objects);
+        if (!violations.isEmpty()) {
+            throw new ConstraintViolationException(violations);
+        }
+    }
     /**
      * find the entity
      * @param entity
@@ -18,6 +32,11 @@ public interface Repository<T extends BaseEntity<K>, K extends EntityId> {
      * find the entity by its entityId
      */
     T find(EntityId entityId);
+
+    /**
+     * lock the entity by its entityId
+     */
+    T lock(EntityId entityId);
 
     /**
      * save the entity
