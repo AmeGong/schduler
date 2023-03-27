@@ -5,9 +5,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 import com.example.domain.entity.TaskRecord;
 import com.example.infra.convertor.TaskRecordConvertor;
@@ -38,7 +35,7 @@ public class TaskRecordRepositoryImpl implements TaskRecordRepository {
     }
 
     @Override
-    public TaskRecord find(@NotNull EntityId entityId) {
+    public TaskRecord find(EntityId entityId) {
         validate(entityId);
         TaskRecordDOExample example = new TaskRecordDOExample();
         example.createCriteria().andRecordIdEqualTo(Integer.valueOf(entityId.getId()));
@@ -47,7 +44,7 @@ public class TaskRecordRepositoryImpl implements TaskRecordRepository {
     }
 
     @Override
-    public int save(@NotNull TaskRecord entity) {
+    public int save(TaskRecord entity) {
         validate(entity);
         if (entity.getRecordId() != null) {
             // The record does exist, update it
@@ -62,7 +59,7 @@ public class TaskRecordRepositoryImpl implements TaskRecordRepository {
     }
 
     @Override
-    public int delete(@NotNull EntityId entityId) {
+    public int delete(EntityId entityId) {
         validate(entityId);
         TaskRecordDOExample example = new TaskRecordDOExample();
         example.createCriteria().andRecordIdEqualTo(Integer.valueOf(entityId.getId()));
@@ -70,7 +67,7 @@ public class TaskRecordRepositoryImpl implements TaskRecordRepository {
     }
 
     @Override
-    public List<Integer> find(@NotEmpty Set<TaskStatus> statusSet, @NotNull Date exeTime) {
+    public List<Integer> find(Set<TaskStatus> statusSet, Date exeTime) {
         validate(statusSet);
         validate(exeTime);
         List<String> statusList = statusSet.stream().map(TaskStatus::name).collect(Collectors.toList());
@@ -78,7 +75,7 @@ public class TaskRecordRepositoryImpl implements TaskRecordRepository {
     }
 
     @Override
-    public TaskRecord lock(@NotNull EntityId entityId) {
+    public TaskRecord lock(EntityId entityId) {
         return TaskRecordConvertor.convertFromDO(taskRecordManualMapper.lock(Integer.valueOf(entityId.getId())));
     }
 

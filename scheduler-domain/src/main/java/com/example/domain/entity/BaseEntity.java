@@ -1,12 +1,12 @@
 package com.example.domain.entity;
 
+
+import com.example.types.EntityId;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validation;
 import javax.validation.Validator;
-
-import com.example.types.EntityId;
-
 import java.util.Set;
 
 public interface BaseEntity<K extends EntityId> {

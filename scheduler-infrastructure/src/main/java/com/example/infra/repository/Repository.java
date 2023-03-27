@@ -5,12 +5,16 @@ import java.util.Set;
 
 import com.example.domain.entity.BaseEntity;
 import com.example.types.EntityId;
+import org.springframework.validation.annotation.Validated;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validation;
 import javax.validation.Validator;
+import javax.validation.constraints.NotNull;
 
+
+@Validated
 public interface Repository<T extends BaseEntity<K>, K extends EntityId> {
 
     public static final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
@@ -45,7 +49,7 @@ public interface Repository<T extends BaseEntity<K>, K extends EntityId> {
      * @param entity
      * @return
      */
-    int save(T entity);
+    int save(@NotNull T entity);
 
     /**
      * delete the entity by its entityId

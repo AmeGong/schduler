@@ -7,6 +7,10 @@ import java.util.Set;
 import com.example.domain.entity.TaskRecord;
 import com.example.types.RecordId;
 import com.example.types.enums.TaskStatus;
+import org.springframework.validation.annotation.Validated;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 public interface TaskRecordRepository extends Repository<TaskRecord, RecordId> {
 
@@ -16,5 +20,5 @@ public interface TaskRecordRepository extends Repository<TaskRecord, RecordId> {
      * @param exeTime
      * @return the primary keys
      */
-    List<Integer> find(Set<TaskStatus> statusSet, Date exeTime);
+    List<Integer> find(@NotEmpty Set<TaskStatus> statusSet, @NotNull Date exeTime);
 }

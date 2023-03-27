@@ -2,7 +2,6 @@ package com.example.domain.entity;
 
 import java.util.Date;
 
-import javax.validation.constraints.NotNull;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -12,6 +11,8 @@ import com.example.domain.service.TaskHandlerFactory;
 import com.example.types.RecordId;
 import com.example.types.enums.TaskStatus;
 import com.example.types.enums.TaskType;
+
+import javax.validation.constraints.NotNull;
 
 public class TaskRecord implements BaseEntity<RecordId> {
     

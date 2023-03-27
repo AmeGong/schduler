@@ -2,13 +2,14 @@ package com.example.infra.convertor;
 
 import java.util.List;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.BeanUtils;
 
 import com.example.domain.entity.TaskRecord;
 import com.example.infra.po.TaskRecordDO;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 public class TaskRecordConvertor {
     
