@@ -17,14 +17,6 @@ import javax.validation.constraints.NotNull;
 @Validated
 public interface Repository<T extends BaseEntity<K>, K extends EntityId> {
 
-    public static final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-
-    default void validate(Object objects){
-        Set<ConstraintViolation<Object>> violations = Repository.validator.validate(objects);
-        if (!violations.isEmpty()) {
-            throw new ConstraintViolationException(violations);
-        }
-    }
     /**
      * find the entity
      * @param entity

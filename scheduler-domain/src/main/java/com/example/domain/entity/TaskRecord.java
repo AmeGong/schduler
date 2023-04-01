@@ -1,13 +1,14 @@
 package com.example.domain.entity;
 
 import java.util.Date;
-
+import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.example.domain.service.TaskHandler;
-import com.example.domain.service.TaskHandlerFactory;
+import com.example.domain.service.TaskProcessor;
+import com.example.domain.service.TaskProcessorFactory;
 import com.example.types.RecordId;
 import com.example.types.enums.TaskStatus;
 import com.example.types.enums.TaskType;
@@ -17,6 +18,15 @@ import javax.validation.constraints.NotNull;
 public class TaskRecord implements BaseEntity<RecordId> {
     
     protected static final Log LOG = LogFactory.getLog(TaskRecord.class);
+
+    private static final int EXECUTE_INTERVAL = 10000;
+
+    public static final Set<TaskStatus> EXECUTABLE_STATUS = new HashSet<>();
+
+    static {
+        EXECUTABLE_STATUS.add(TaskStatus.INITIAL);
+        EXECUTABLE_STATUS.add(TaskStatus.WAITING);
+    }
     
     @NotNull
     private RecordId recordId;
@@ -51,13 +61,18 @@ public class TaskRecord implements BaseEntity<RecordId> {
     private Date nextExeTime;
 
     public boolean schedulable() {
-        return (taskStatus == TaskStatus.PROCESSING) &&
+        return (taskStatus == TaskStatus.INITIAL || taskStatus == TaskStatus.WAITING) &&
                 (exeTimes <= taskType.getMaxRetryTimes());
     }
 
     public boolean execute() {
-        TaskHandler taskHandler = TaskHandlerFactory.get(taskType);
-        return taskHandler.handle(this);
+        TaskProcessor taskProcessor = TaskProcessorFactory.get(taskType);
+        exeTimes++;
+        return taskProcessor.process(this);
+    }
+
+    public void adjustNextExeTime() {
+        this.nextExeTime.setTime(this.nextExeTime.getTime() + EXECUTE_INTERVAL);
     }
 
     public RecordId getRecordId() {

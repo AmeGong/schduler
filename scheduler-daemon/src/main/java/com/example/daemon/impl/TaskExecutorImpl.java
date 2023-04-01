@@ -1,0 +1,88 @@
+package com.example.daemon.impl;
+
+import java.util.List;
+import java.util.concurrent.ThreadPoolExecutor;
+
+import com.example.types.exception.SchedulerRetryableException;
+import com.example.types.exception.SchedulerUnretryableException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.TransactionCallbackWithoutResult;
+import org.springframework.transaction.support.TransactionTemplate;
+import org.springframework.util.CollectionUtils;
+
+import com.example.daemon.TaskExecutor;
+import com.example.daemon.ThreadPoolManage;
+import com.example.domain.entity.TaskRecord;
+import com.example.infra.repository.TaskRecordRepository;
+import com.example.types.EntityId;
+import com.example.types.enums.TaskStatus;
+
+@Component
+public class TaskExecutorImpl implements TaskExecutor {
+
+    @Autowired
+    private TaskRecordRepository taskRecordRepository;
+
+    @Autowired
+    private ThreadPoolManage threadPoolManage;
+
+    @Autowired
+    private TransactionTemplate transactionTemplate;
+
+    @Override
+    public void execute(List<EntityId> entityIdList) {
+        if (CollectionUtils.isEmpty(entityIdList)) {
+            return;
+        }
+        ThreadPoolExecutor executorPool = threadPoolManage.getExecutorPool();
+        for (EntityId entityId : entityIdList) {
+            executorPool.execute(new Runnable() {
+                @Override
+                public void run() {
+                    doExecute(entityId);
+                }
+            });
+
+        }
+    }
+
+    private void doExecute(EntityId entityId) {
+        TaskRecord taskRecord = taskRecordRepository.find(entityId);
+        try {
+            if (taskRecord.schedulable()) {
+                if (!taskRecordRepository.optimisticLockByStatus(taskRecord.getRecordId(), taskRecord.getTaskStatus(),
+                        TaskStatus.PROCESSING)) {
+                    return;
+                }
+                taskRecord.setTaskStatus(TaskStatus.PROCESSING);
+                transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+
+                    @Override
+                    protected void doInTransactionWithoutResult(TransactionStatus status) {
+                        boolean success = taskRecord.execute();
+                        if (success) {
+                            taskRecord.setTaskStatus(TaskStatus.COMPLETED);
+                        } else {
+                            taskRecord.setTaskStatus(TaskStatus.ERROR);
+                        }
+                    }
+
+                });
+            }
+        } catch (SchedulerRetryableException rle) {
+            taskRecord.adjustNextExeTime();
+            taskRecord.setTaskStatus(TaskStatus.WAITING);
+        } catch (SchedulerUnretryableException urle) {
+            taskRecord.setTaskStatus(TaskStatus.ERROR);
+        } catch (Throwable t) {
+            taskRecord.adjustNextExeTime();
+            taskRecord.setTaskStatus(TaskStatus.WAITING);
+        } finally {
+            taskRecordRepository.save(taskRecord);
+        }
+    }
+
+}

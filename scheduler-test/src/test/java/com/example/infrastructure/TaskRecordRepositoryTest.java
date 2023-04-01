@@ -1,6 +1,5 @@
 package com.example.infrastructure;
 
-
 import com.example.Bootstrap;
 import com.example.domain.entity.TaskRecord;
 import com.example.infra.dao.auto.TaskRecordMapper;
@@ -17,6 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.TransactionCallbackWithoutResult;
+import org.springframework.transaction.support.TransactionTemplate;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = Bootstrap.class)
@@ -26,20 +28,27 @@ public class TaskRecordRepositoryTest {
     @Autowired
     private TaskRecordRepository taskRecordRepository;
 
-
     // @Autowired
     // private TaskRecordMapper taskRecordMapper;
+    @Autowired
+    private TransactionTemplate transactionTemplate;
 
     @Test
     public void saveTest() {
-//        TaskRecord taskRecord = new TaskRecord();
-//        taskRecord.validate();
-//        TaskRecord taskRecord = new TaskRecord();
-//        taskRecord.setTaskContext("taskContext");
-//        taskRecord.setTaskType(TaskType.DEMO);
-//        taskRecord.setTaskStatus(TaskStatus.INITIAL);
-//        taskRecordRepository.save(taskRecord);
-        taskRecordRepository.save(null);
+        TaskRecord taskRecord = new TaskRecord();
+        taskRecord.setTaskContext("taskContext");
+        taskRecord.setTaskType(TaskType.DEMO);
+        taskRecord.setTaskStatus(TaskStatus.INITIAL);
+        transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+
+            @Override
+            protected void doInTransactionWithoutResult(TransactionStatus status) {
+                // TODO Auto-generated method stub
+                taskRecordRepository.save(taskRecord);
+            }
+
+        });
+        // taskRecordRepository.save(null);
     }
-    
+
 }

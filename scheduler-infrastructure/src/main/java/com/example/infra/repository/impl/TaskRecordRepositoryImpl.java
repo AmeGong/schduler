@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.validation.constraints.NotNull;
 
 import com.example.domain.entity.TaskRecord;
 import com.example.infra.convertor.TaskRecordConvertor;
@@ -14,6 +15,7 @@ import com.example.infra.po.TaskRecordDO;
 import com.example.infra.po.TaskRecordDOExample;
 import com.example.infra.repository.TaskRecordRepository;
 import com.example.types.EntityId;
+import com.example.types.RecordId;
 import com.example.types.enums.TaskStatus;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,8 @@ import org.springframework.util.CollectionUtils;
 
 @Repository
 public class TaskRecordRepositoryImpl implements TaskRecordRepository {
+
+    private final int MAX_LIMIT = 500;
 
     @Autowired
     private TaskRecordMapper taskRecordMapper;
@@ -36,7 +40,6 @@ public class TaskRecordRepositoryImpl implements TaskRecordRepository {
 
     @Override
     public TaskRecord find(EntityId entityId) {
-        validate(entityId);
         TaskRecordDOExample example = new TaskRecordDOExample();
         example.createCriteria().andRecordIdEqualTo(Integer.valueOf(entityId.getId()));
         List<TaskRecordDO> result = taskRecordMapper.selectByExample(example);
@@ -45,13 +48,11 @@ public class TaskRecordRepositoryImpl implements TaskRecordRepository {
 
     @Override
     public int save(TaskRecord entity) {
-        validate(entity);
         if (entity.getRecordId() != null) {
             // The record does exist, update it
             TaskRecordDOExample example = new TaskRecordDOExample();
             example.createCriteria().andRecordIdEqualTo(Integer.valueOf(entity.getRecordId().getId()));
             return taskRecordMapper.updateByExampleSelective(TaskRecordConvertor.convertToDO(entity), example);
-
         } else {
             // The record doesn't exist, insert it
             return taskRecordMapper.insertSelective(TaskRecordConvertor.convertToDO(entity));
@@ -60,18 +61,30 @@ public class TaskRecordRepositoryImpl implements TaskRecordRepository {
 
     @Override
     public int delete(EntityId entityId) {
-        validate(entityId);
         TaskRecordDOExample example = new TaskRecordDOExample();
         example.createCriteria().andRecordIdEqualTo(Integer.valueOf(entityId.getId()));
         return taskRecordMapper.deleteByExample(example);
     }
 
     @Override
-    public List<Integer> find(Set<TaskStatus> statusSet, Date exeTime) {
-        validate(statusSet);
-        validate(exeTime);
+    public List<EntityId> find(Set<TaskStatus> statusSet, Date exeTime, int limit) {
         List<String> statusList = statusSet.stream().map(TaskStatus::name).collect(Collectors.toList());
-        return taskRecordManualMapper.selectRecordId(statusList, exeTime);
+        limit = Math.min(limit, MAX_LIMIT);
+        return taskRecordManualMapper.selectRecordIds(statusList, exeTime, limit)
+                .stream()
+                .map(item -> new RecordId(item))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<EntityId> find(Set<TaskStatus> statusSet, Date exeTime) {
+        return find(statusSet,exeTime,MAX_LIMIT);
+    }
+
+    @Override
+    public boolean optimisticLockByStatus(EntityId entityId, TaskStatus previousStatus,
+            TaskStatus targetStatus) {
+        return taskRecordManualMapper.optimisticLockByTaskStats(Integer.valueOf(entityId.getId()), previousStatus.name(), targetStatus.name()) == 1;
     }
 
     @Override
