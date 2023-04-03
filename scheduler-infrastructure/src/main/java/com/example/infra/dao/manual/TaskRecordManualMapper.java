@@ -12,10 +12,6 @@ import com.example.infra.po.TaskRecordDO;
 
 @Mapper
 public interface TaskRecordManualMapper {
-
-    @Select("select record_id from task_record where task_status in (#{statusList}) and next_exe_time <= #{exeTime} limit #{limit}")
-    List<Integer> selectRecordIds(@Param("statusList") List<String> statusList, @Param("exeTime") Date exeTime, @Param("limit") int limit);
-
     @Select("select * from task_record where record_id = #{recordId} for update nowait")
     TaskRecordDO lock(@Param("recordId") Integer recordId);
 
