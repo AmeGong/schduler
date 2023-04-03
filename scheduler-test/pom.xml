@@ -21,6 +21,10 @@
         </dependency>
         <dependency>
             <groupId>com.example</groupId>
+            <artifactId>scheduler-daemon</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.example</groupId>
             <artifactId>scheduler-infrastructure</artifactId>
         </dependency>
         <dependency>

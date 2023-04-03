@@ -5,8 +5,4 @@ import com.example.types.EntityId;
 
 public interface BaseEntity<K extends EntityId> {
 
-
-    default void validate() {
-    }
-    
 }

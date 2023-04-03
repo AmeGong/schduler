@@ -1,6 +1,7 @@
 package com.example.infrastructure;
 
 import com.example.Bootstrap;
+import com.example.daemon.TaskSplitor;
 import com.example.domain.entity.TaskRecord;
 import com.example.infra.dao.auto.TaskRecordMapper;
 import com.example.infra.po.TaskRecordDO;
@@ -33,6 +34,9 @@ public class TaskRecordRepositoryTest {
     @Autowired
     private TransactionTemplate transactionTemplate;
 
+    @Autowired
+    private TaskSplitor taskSplitor;
+
     @Test
     public void saveTest() {
         TaskRecord taskRecord = new TaskRecord();
@@ -49,6 +53,11 @@ public class TaskRecordRepositoryTest {
 
         });
         // taskRecordRepository.save(null);
+    }
+
+    @Test
+    public void splitorTest() {
+        taskSplitor.split(new Date());
     }
 
 }

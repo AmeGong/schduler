@@ -30,6 +30,15 @@ public enum TaskType {
         this.desc = desc;
     }
 
+    public static TaskType getByCode(String code) {
+        TaskType[] values = values();
+        for (TaskType value : values) {
+            if (value.name().equals(code)) {
+                return value;
+            }
+        }
+        return null;
+    }
     
 
 }

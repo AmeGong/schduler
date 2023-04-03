@@ -7,8 +7,8 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.example.domain.service.TaskProcessor;
-import com.example.domain.service.TaskProcessorFactory;
+import com.example.domain.service.TaskProcessorSpi;
+import com.example.domain.service.TaskProcessorSpiFactory;
 import com.example.types.RecordId;
 import com.example.types.enums.TaskStatus;
 import com.example.types.enums.TaskType;
@@ -66,7 +66,7 @@ public class TaskRecord implements BaseEntity<RecordId> {
     }
 
     public boolean execute() {
-        TaskProcessor taskProcessor = TaskProcessorFactory.get(taskType);
+        TaskProcessorSpi taskProcessor = TaskProcessorSpiFactory.get(taskType);
         exeTimes++;
         return taskProcessor.process(this);
     }
@@ -139,7 +139,18 @@ public class TaskRecord implements BaseEntity<RecordId> {
         this.exeTimes = exeTimes;
     }
 
-    
 
-
+    @Override
+    public String toString() {
+        return "TaskRecord{" +
+                "recordId=" + recordId +
+                ", taskType=" + taskType +
+                ", taskStatus=" + taskStatus +
+                ", taskContext='" + taskContext + '\'' +
+                ", exeTimes=" + exeTimes +
+                ", gmtCreated=" + gmtCreated +
+                ", gmtModified=" + gmtModified +
+                ", nextExeTime=" + nextExeTime +
+                '}';
+    }
 }

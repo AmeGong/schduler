@@ -70,9 +70,11 @@ public class TaskRecordRepositoryImpl implements TaskRecordRepository {
     public List<EntityId> find(Set<TaskStatus> statusSet, Date exeTime, int limit) {
         List<String> statusList = statusSet.stream().map(TaskStatus::name).collect(Collectors.toList());
         limit = Math.min(limit, MAX_LIMIT);
-        return taskRecordManualMapper.selectRecordIds(statusList, exeTime, limit)
-                .stream()
-                .map(item -> new RecordId(item))
+        TaskRecordDOExample example = new TaskRecordDOExample();
+        example.createCriteria().andNextExeTimeLessThanOrEqualTo(exeTime).andTaskStatusIn(statusList);
+        example.setOrderByClause(" record_id limit "+ limit);
+        return taskRecordMapper.selectByExample(example).stream()
+                .map(itme -> new RecordId(itme.getRecordId()))
                 .collect(Collectors.toList());
     }
 

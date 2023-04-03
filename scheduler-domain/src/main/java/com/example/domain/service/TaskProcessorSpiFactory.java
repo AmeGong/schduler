@@ -5,11 +5,11 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.example.types.enums.TaskType;
 
-public class TaskProcessorFactory {
+public class TaskProcessorSpiFactory {
     
-    private static Map<String, TaskProcessor> taskProcessors = new ConcurrentHashMap<>();
+    private static Map<String, TaskProcessorSpi> taskProcessors = new ConcurrentHashMap<>();
 
-    public static synchronized void registry(TaskProcessor taskProcessor) {
+    public static synchronized void registry(TaskProcessorSpi taskProcessor) {
         TaskType taskType = taskProcessor.supportTaskType();
         if (taskProcessors.containsKey(taskType.name())) {
             throw new RuntimeException("Failed to registry the same TaskHandler");
@@ -18,8 +18,8 @@ public class TaskProcessorFactory {
         taskProcessors.put(taskType.name(), taskProcessor);
     }
 
-    public static TaskProcessor get(TaskType taskType) {
-        TaskProcessor taskProcessor = taskProcessors.get(taskType.name());
+    public static TaskProcessorSpi get(TaskType taskType) {
+        TaskProcessorSpi taskProcessor = taskProcessors.get(taskType.name());
         if (taskProcessor == null) {
             throw new RuntimeException(String.format("Cannot find the TaskProcessor of the %s TaskType", taskType.name()));
         }
