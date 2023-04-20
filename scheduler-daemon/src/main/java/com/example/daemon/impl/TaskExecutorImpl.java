@@ -89,6 +89,7 @@ public class TaskExecutorImpl implements TaskExecutor {
             taskRecord.setTaskStatus(TaskStatus.WAITING);
             LOG.error(t);
         } finally {
+            // consider save fail
             taskRecordRepository.save(taskRecord);
         }
     }

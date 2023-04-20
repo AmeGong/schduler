@@ -12,7 +12,9 @@ import org.springframework.stereotype.Component;
 public class ThreadPoolManage {
     
 
-    private ThreadPoolExecutor executorPool = new ThreadPoolExecutor(5,100,5, TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
+    private ThreadPoolExecutor executorPool = new ThreadPoolExecutor(5,100,0, TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
+
+    private ThreadPoolExecutor backgroudPool = new ThreadPoolExecutor(1,5,0, TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
 
     public ThreadPoolExecutor getExecutorPool() {
         return executorPool;
@@ -21,4 +23,14 @@ public class ThreadPoolManage {
     public void setExecutorPool(ThreadPoolExecutor executorPool) {
         this.executorPool = executorPool;
     }
+
+    public ThreadPoolExecutor getBackgroudPool() {
+        return backgroudPool;
+    }
+
+    public void setBackgroudPool(ThreadPoolExecutor backgroudPool) {
+        this.backgroudPool = backgroudPool;
+    }
+
+    
 }
