@@ -41,15 +41,18 @@
     </Appenders>
 
     <Loggers>
-        <Root level="error">
+        <Root level="info">
             <AppenderRef ref="CONSOLE" />
             <AppenderRef ref="APP_DEFAULT" />
-            <AppenderRef ref="COMMON_ERROR" />
         </Root>
 
         <Logger name="DAL_DIGEST" additivity="false" level="info">
             <AppenderRef ref="DAL_DIGEST" />
+        </Logger>
+
+        <Logger name="COMMON_ERROR" additivity="false" level="error">
             <AppenderRef ref="CONSOLE" />
+            <AppenderRef ref="COMMON_ERROR" />
         </Logger>
     </Loggers>
 </Configuration>

@@ -5,6 +5,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 import com.example.types.exception.SchedulerRetryableException;
 import com.example.types.exception.SchedulerUnretryableException;
+import com.google.common.util.concurrent.RateLimiter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -27,6 +28,7 @@ public class TaskExecutorImpl implements TaskExecutor {
 
     protected static Log LOG = LogFactory.getLog(TaskExecutorImpl.class);
 
+    private RateLimiter rateLimiter = RateLimiter.create(100);
 
     @Autowired
     private TaskRecordRepository taskRecordRepository;
@@ -56,6 +58,11 @@ public class TaskExecutorImpl implements TaskExecutor {
 
     private void doExecute(EntityId entityId) {
         TaskRecord taskRecord = taskRecordRepository.find(entityId);
+        if (taskRecord == null)
+            return;
+        if (!rateLimiter.tryAcquire()){
+            return;
+        }
         try {
             if (taskRecord.schedulable()) {
                 if (!taskRecordRepository.optimisticLockByStatus(taskRecord.getRecordId(), taskRecord.getTaskStatus(),
@@ -63,19 +70,12 @@ public class TaskExecutorImpl implements TaskExecutor {
                     return;
                 }
                 taskRecord.setTaskStatus(TaskStatus.PROCESSING);
-                transactionTemplate.execute(new TransactionCallbackWithoutResult() {
-
-                    @Override
-                    protected void doInTransactionWithoutResult(TransactionStatus status) {
-                        boolean success = taskRecord.execute();
-                        if (success) {
-                            taskRecord.setTaskStatus(TaskStatus.COMPLETED);
-                        } else {
-                            taskRecord.setTaskStatus(TaskStatus.ERROR);
-                        }
-                    }
-
-                });
+                boolean success = taskRecord.execute();
+                if (success) {
+                    taskRecord.setTaskStatus(TaskStatus.COMPLETED);
+                } else {
+                    taskRecord.setTaskStatus(TaskStatus.ERROR);
+                }
             }
         } catch (SchedulerRetryableException rle) {
             taskRecord.adjustNextExeTime();

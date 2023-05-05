@@ -2,6 +2,8 @@ package com.example.daemon.impl;
 
 import java.util.*;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -15,6 +17,8 @@ import com.example.types.EntityId;
 @Component
 public class TaskSplitorImpl implements TaskSplitor {
 
+    protected static Log LOG = LogFactory.getLog(TaskExecutorImpl.class);
+
     private final static int SUB_LIST_SIZE = 100;
 
     @Autowired
@@ -25,16 +29,17 @@ public class TaskSplitorImpl implements TaskSplitor {
 
     @Override
     public void split(Date exeTime) {
+        LOG.debug("start to split task!");
         List<EntityId> entityIds = taskRecordRepository.find(TaskRecord.EXECUTABLE_STATUS, exeTime);
         if (!CollectionUtils.isEmpty(entityIds))  {
-            List<List<EntityId>> entitySubLists = shuffleBatch(entityIds, SUB_LIST_SIZE);
+            List<List<EntityId>> entitySubLists = batchShuffle(entityIds, SUB_LIST_SIZE);
             for (List<EntityId> subList : entitySubLists) {
                 taskExecutor.execute(subList);
             }
         }
     }
 
-    private List<List<EntityId>> shuffleBatch(List<EntityId> list, int subListSize) {
+    private List<List<EntityId>> batchShuffle(List<EntityId> list, int subListSize) {
         List<List<EntityId>> result = new ArrayList<>();
         int total = list.size();
         int loop = total / subListSize;

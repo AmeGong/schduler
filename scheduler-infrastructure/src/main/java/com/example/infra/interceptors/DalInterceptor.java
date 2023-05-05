@@ -1,5 +1,6 @@
 package com.example.infra.interceptors;
 
+import com.example.domain.util.LogDef;
 import org.aopalliance.intercept.MethodInterceptor;
 
 import org.aopalliance.intercept.MethodInvocation;
@@ -9,9 +10,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class DalInterceptor implements MethodInterceptor {
-
-    protected static Log LOG = LogFactory.getLog("DAL_DIGEST");
-
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
         long startTime = System.currentTimeMillis();
@@ -22,7 +20,7 @@ public class DalInterceptor implements MethodInterceptor {
             result = invocation.proceed();
         } finally {
             long endTime = System.currentTimeMillis();
-            LOG.info(String.format("cost %d ms, %s#%s", endTime - startTime, className, methodName));
+            LogDef.DAL_DIGIEST.info(String.format("cost %d ms, %s#%s", endTime - startTime, className, methodName));
         }
         return result;
 

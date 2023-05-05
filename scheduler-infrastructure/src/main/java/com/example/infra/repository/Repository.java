@@ -1,17 +1,11 @@
 package com.example.infra.repository;
 
-import java.util.List;
-import java.util.Set;
-
 import com.example.domain.entity.BaseEntity;
 import com.example.types.EntityId;
 import org.springframework.validation.annotation.Validated;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
-import javax.validation.Validation;
-import javax.validation.Validator;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 
 @Validated

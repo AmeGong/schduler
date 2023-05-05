@@ -13,12 +13,15 @@ import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 
-@EnableKafka
-@Configuration
+//@EnableKafka
+//@Configuration
 public class KafkaConfig {
 
   @Value(value = "${spring.kafka.bootstrap-servers}")
   private String bootstrapAddress;
+
+  @Value(value = "${scheduler.kafka.groupId}")
+  private String groupId;
 
   @Bean
   public ConsumerFactory<String, String> consumerFactory() {
@@ -26,9 +29,9 @@ public class KafkaConfig {
     props.put(
         ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
         bootstrapAddress);
-    // props.put(
-    // ConsumerConfig.GROUP_ID_CONFIG,
-    // groupId);
+     props.put(
+     ConsumerConfig.GROUP_ID_CONFIG,
+     groupId);
     props.put(
         ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,
         StringDeserializer.class);
