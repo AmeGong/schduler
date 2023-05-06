@@ -25,20 +25,17 @@ public class TaskExecutorImpl implements TaskExecutor {
 
     protected static Log LOG = LogFactory.getLog(TaskExecutorImpl.class);
 
-    private RateLimiter rateLimiter = RateLimiter.create(100);
+    private RateLimiter rateLimiter = RateLimiter.create(10000);
 
     @Autowired
     private TaskRecordRepository taskRecordRepository;
-
-    @Autowired
-    private ThreadPoolManage threadPoolManage;
 
     @Override
     public void execute(List<EntityId> entityIdList) {
         if (CollectionUtils.isEmpty(entityIdList)) {
             return;
         }
-        ThreadPoolExecutor executorPool = threadPoolManage.getExecutorPool();
+        ThreadPoolExecutor executorPool = ThreadPoolManage.getExecutorPool();
         for (EntityId entityId : entityIdList) {
             executorPool.execute(new Runnable() {
                 @Override
@@ -54,15 +51,11 @@ public class TaskExecutorImpl implements TaskExecutor {
         if (!rateLimiter.tryAcquire()){
             return;
         }
-        TaskRecord taskRecord = taskRecordRepository.find(entityId);
+        TaskRecord taskRecord = taskRecordRepository.lock(entityId);
         if (taskRecord == null)
             return;
         try {
             if (taskRecord.schedulable()) {
-                if (!taskRecordRepository.optimisticLockByStatus(taskRecord.getRecordId(), taskRecord.getTaskStatus(),
-                        TaskStatus.PROCESSING)) {
-                    return;
-                }
                 taskRecord.setTaskStatus(TaskStatus.PROCESSING);
                 boolean success = taskRecord.execute();
                 if (success) {

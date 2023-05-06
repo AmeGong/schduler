@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.validation.constraints.NotNull;
-
 import com.example.domain.entity.TaskRecord;
 import com.example.infra.convertor.TaskRecordConvertor;
 import com.example.infra.dao.auto.TaskRecordMapper;

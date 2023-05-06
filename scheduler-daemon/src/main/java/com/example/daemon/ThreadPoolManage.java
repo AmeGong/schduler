@@ -8,29 +8,20 @@ import java.util.concurrent.TimeUnit;
 import org.springframework.scheduling.concurrent.ThreadPoolExecutorFactoryBean;
 import org.springframework.stereotype.Component;
 
-@Component
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
+
 public class ThreadPoolManage {
-    
 
-    private ThreadPoolExecutor executorPool = new ThreadPoolExecutor(5,100,0, TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
+    private static ThreadPoolExecutor executorPool = new ThreadPoolExecutor(5,100,0, TimeUnit.SECONDS, new SynchronousQueue<Runnable>(), new ThreadFactoryBuilder().setNameFormat("Task-Executor-Pool").build());
 
-    private ThreadPoolExecutor backgroudPool = new ThreadPoolExecutor(1,5,0, TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
+    private static ThreadPoolExecutor backgroundPool = new ThreadPoolExecutor(1,5,0, TimeUnit.SECONDS, new SynchronousQueue<Runnable>(),new ThreadFactoryBuilder().setNameFormat("Background-Executor-Pool").build());
 
-    public ThreadPoolExecutor getExecutorPool() {
+    public static ThreadPoolExecutor getExecutorPool() {
         return executorPool;
     }
 
-    public void setExecutorPool(ThreadPoolExecutor executorPool) {
-        this.executorPool = executorPool;
+    public static ThreadPoolExecutor getBackgroundPool() {
+        return backgroundPool;
     }
-
-    public ThreadPoolExecutor getBackgroudPool() {
-        return backgroudPool;
-    }
-
-    public void setBackgroudPool(ThreadPoolExecutor backgroudPool) {
-        this.backgroudPool = backgroudPool;
-    }
-
     
 }
