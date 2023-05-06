@@ -29,10 +29,6 @@
         </dependency>
         <dependency>
             <groupId>com.example</groupId>
-            <artifactId>scheduler-application</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.example</groupId>
             <artifactId>scheduler-main</artifactId>
         </dependency>
 

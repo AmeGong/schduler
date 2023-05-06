@@ -11,9 +11,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.support.TransactionCallbackWithoutResult;
-import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.util.CollectionUtils;
 
 import com.example.daemon.TaskExecutor;
@@ -36,9 +33,6 @@ public class TaskExecutorImpl implements TaskExecutor {
     @Autowired
     private ThreadPoolManage threadPoolManage;
 
-    @Autowired
-    private TransactionTemplate transactionTemplate;
-
     @Override
     public void execute(List<EntityId> entityIdList) {
         if (CollectionUtils.isEmpty(entityIdList)) {
@@ -57,12 +51,12 @@ public class TaskExecutorImpl implements TaskExecutor {
     }
 
     private void doExecute(EntityId entityId) {
-        TaskRecord taskRecord = taskRecordRepository.find(entityId);
-        if (taskRecord == null)
-            return;
         if (!rateLimiter.tryAcquire()){
             return;
         }
+        TaskRecord taskRecord = taskRecordRepository.find(entityId);
+        if (taskRecord == null)
+            return;
         try {
             if (taskRecord.schedulable()) {
                 if (!taskRecordRepository.optimisticLockByStatus(taskRecord.getRecordId(), taskRecord.getTaskStatus(),

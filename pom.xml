@@ -39,11 +39,6 @@
       </dependency>
       <dependency>
         <groupId>com.example</groupId>
-        <artifactId>scheduler-application</artifactId>
-        <version>1.0-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>com.example</groupId>
         <artifactId>scheduler-service</artifactId>
         <version>1.0-SNAPSHOT</version>
       </dependency>
@@ -65,16 +60,6 @@
       <dependency>
         <groupId>com.example</groupId>
         <artifactId>scheduler-infrastructure</artifactId>
-        <version>1.0-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>com.example</groupId>
-        <artifactId>scheduler-facade</artifactId>
-        <version>1.0-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>com.example</groupId>
-        <artifactId>scheduler-api</artifactId>
         <version>1.0-SNAPSHOT</version>
       </dependency>
       <dependency>
@@ -224,10 +209,7 @@
     </resources>
   </build>
   <modules>
-    <module>scheduler-application</module>
-    <module>scheduler-facade</module>
     <module>scheduler-domain</module>
-    <module>scheduler-api</module>
     <module>scheduler-infrastructure</module>
     <module>scheduler-main</module>
     <module>scheduler-test</module>

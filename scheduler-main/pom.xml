@@ -13,9 +13,5 @@
     <description>Main entry point：系统启动模块</description>
 
     <dependencies>
-        <dependency>
-            <groupId>com.example</groupId>
-            <artifactId>scheduler-facade</artifactId>
-        </dependency>
     </dependencies>
 </project>
