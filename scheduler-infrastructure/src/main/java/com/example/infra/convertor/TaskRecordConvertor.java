@@ -11,12 +11,9 @@ import org.springframework.beans.BeanUtils;
 import com.example.domain.entity.TaskRecord;
 import com.example.infra.po.TaskRecordDO;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-
 public class TaskRecordConvertor {
     
-    public static TaskRecordDO convertToDO(@NotNull TaskRecord taskRecord) {
+    public static TaskRecordDO convertToDO(TaskRecord taskRecord) {
         TaskRecordDO taskRecordDO = new TaskRecordDO();
         BeanUtils.copyProperties(taskRecord, taskRecordDO);
         taskRecordDO.setRecordId(Integer.valueOf(taskRecord.getRecordId().getId()));
@@ -25,7 +22,7 @@ public class TaskRecordConvertor {
         return taskRecordDO;
     }
 
-    public static TaskRecord convertFromDO(@NotNull TaskRecordDO taskRecordDO) {
+    public static TaskRecord convertFromDO(TaskRecordDO taskRecordDO) {
         TaskRecord taskRecord = new TaskRecord();
         BeanUtils.copyProperties(taskRecordDO,taskRecord);
         taskRecord.setRecordId(new RecordId(taskRecordDO.getRecordId()));
@@ -34,7 +31,7 @@ public class TaskRecordConvertor {
         return taskRecord;
     }
 
-    public static List<TaskRecord> convertFromDO(@NotEmpty List<TaskRecordDO> taskRecordDOList) {
+    public static List<TaskRecord> convertFromDO(List<TaskRecordDO> taskRecordDOList) {
         // TODO
         return null;
     }

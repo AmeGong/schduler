@@ -88,8 +88,16 @@ public class TaskRecordRepositoryImpl implements TaskRecordRepository {
     }
 
     @Override
-    public TaskRecord lock(EntityId entityId) {
-        return TaskRecordConvertor.convertFromDO(taskRecordManualMapper.lock(Integer.valueOf(entityId.getId())));
+    public TaskRecord lock(EntityId entityId, boolean silenceMode) {
+        TaskRecordDO entityDO = null;
+        try {
+            entityDO = taskRecordManualMapper.lock(Integer.valueOf(entityId.getId()));
+        } catch (Throwable t) {
+            if (!silenceMode) {
+                throw t;
+            }
+        }
+        return TaskRecordConvertor.convertFromDO(entityDO);
     }
 
     public TaskRecordMapper getTaskRecordMapper() {

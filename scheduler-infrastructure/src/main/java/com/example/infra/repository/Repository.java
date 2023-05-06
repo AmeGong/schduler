@@ -16,17 +16,17 @@ public interface Repository<T extends BaseEntity<K>, K extends EntityId> {
      * @param entity
      * @return
      */
-    List<T> find(T entity);
+    List<T> find(@NotNull T entity);
 
     /**
      * find the entity by its entityId
      */
-    T find(EntityId entityId);
+    T find(@NotNull EntityId entityId);
 
     /**
      * lock the entity by its entityId
      */
-    T lock(EntityId entityId);
+    T lock(@NotNull EntityId entityId, boolean silenceMode);
 
     /**
      * save the entity
@@ -40,5 +40,5 @@ public interface Repository<T extends BaseEntity<K>, K extends EntityId> {
     /**
      * delete the entity by its entityId
      */
-    int delete(EntityId entityId);
+    int delete(@NotNull EntityId entityId);
 }

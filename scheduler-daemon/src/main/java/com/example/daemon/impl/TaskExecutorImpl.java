@@ -51,7 +51,7 @@ public class TaskExecutorImpl implements TaskExecutor {
         if (!rateLimiter.tryAcquire()){
             return;
         }
-        TaskRecord taskRecord = taskRecordRepository.lock(entityId);
+        TaskRecord taskRecord = taskRecordRepository.lock(entityId, true);
         if (taskRecord == null)
             return;
         try {
