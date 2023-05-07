@@ -18,7 +18,7 @@ public class DalInterceptor implements MethodInterceptor {
             result = invocation.proceed();
         } finally {
             long endTime = System.currentTimeMillis();
-            // LogDef.DAL_DIGIEST.info(String.format("cost %d ms, %s#%s", endTime - startTime, className, methodName));
+            LogDef.DAL_DIGIEST.info(String.format("Elapsed time %d ms, %s#%s", endTime - startTime, className, methodName));
         }
         return result;
 
