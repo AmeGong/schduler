@@ -16,5 +16,11 @@ public class RecordId implements EntityId {
         return String.valueOf(recordId);
     }
 
-    
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("RecordId{");
+        sb.append("recordId=").append(recordId);
+        sb.append('}');
+        return sb.toString();
+    }
 }

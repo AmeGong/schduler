@@ -4,8 +4,6 @@ import com.example.domain.util.LogDef;
 import org.aopalliance.intercept.MethodInterceptor;
 
 import org.aopalliance.intercept.MethodInvocation;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -20,7 +18,7 @@ public class DalInterceptor implements MethodInterceptor {
             result = invocation.proceed();
         } finally {
             long endTime = System.currentTimeMillis();
-            LogDef.DAL_DIGIEST.info(String.format("cost %d ms, %s#%s", endTime - startTime, className, methodName));
+            // LogDef.DAL_DIGIEST.info(String.format("cost %d ms, %s#%s", endTime - startTime, className, methodName));
         }
         return result;
 
