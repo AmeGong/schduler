@@ -30,8 +30,8 @@
 
 
         <RollingFile name="DAL_DIGEST"
-            fileName="${log_dir}/dal_digest.log"
-            filePattern="${log_dir}/dal_digest.%d{yyyy-MM-dd}.log">
+            fileName="${log_dir}/dal-digest.log"
+            filePattern="${log_dir}/dal-digest.%d{yyyy-MM-dd}.log">
             <Policies>
                 <SizeBasedTriggeringPolicy size="20MB" />
                 <TimeBasedTriggeringPolicy />

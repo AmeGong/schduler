@@ -18,7 +18,7 @@ public class DemoTaskProcessorSpi extends AbstractTaskProcessorSpi {
 
     @Override
     public boolean process(TaskRecord taskRecord) {
-        LOG.info(taskRecord);
+        LOG.info(taskRecord.getRecordId());
         return true;
     }
 }

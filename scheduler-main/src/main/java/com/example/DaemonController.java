@@ -6,8 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class DaemonController {
     
-    @GetMapping
+    @GetMapping("/ping")
     public void ping() {
-
     }
 }

@@ -23,6 +23,7 @@ public class TaskRecordConvertor {
     }
 
     public static TaskRecord convertFromDO(TaskRecordDO taskRecordDO) {
+        if (taskRecordDO == null) return null;
         TaskRecord taskRecord = new TaskRecord();
         BeanUtils.copyProperties(taskRecordDO,taskRecord);
         taskRecord.setRecordId(new RecordId(taskRecordDO.getRecordId()));

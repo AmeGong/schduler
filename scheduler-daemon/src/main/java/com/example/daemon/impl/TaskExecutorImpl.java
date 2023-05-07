@@ -48,22 +48,22 @@ public class TaskExecutorImpl implements TaskExecutor {
     }
 
     private void doExecute(EntityId entityId) {
-        if (!rateLimiter.tryAcquire()){
+        if (!rateLimiter.tryAcquire()) {
             return;
         }
         TaskRecord taskRecord = taskRecordRepository.lock(entityId, true);
-        if (taskRecord == null)
+        if (taskRecord == null || !taskRecord.schedulable()) {
             return;
+        }
         try {
-            if (taskRecord.schedulable()) {
-                taskRecord.setTaskStatus(TaskStatus.PROCESSING);
-                boolean success = taskRecord.execute();
-                if (success) {
-                    taskRecord.setTaskStatus(TaskStatus.COMPLETED);
-                } else {
-                    taskRecord.setTaskStatus(TaskStatus.ERROR);
-                }
+            taskRecord.setTaskStatus(TaskStatus.PROCESSING);
+            boolean success = taskRecord.execute();
+            if (success) {
+                taskRecord.setTaskStatus(TaskStatus.COMPLETED);
+            } else {
+                taskRecord.setTaskStatus(TaskStatus.ERROR);
             }
+
         } catch (SchedulerRetryableException rle) {
             taskRecord.adjustNextExeTime();
             taskRecord.setTaskStatus(TaskStatus.WAITING);
