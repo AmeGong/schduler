@@ -14,6 +14,9 @@ import com.example.infra.po.TaskRecordDO;
 public class TaskRecordConvertor {
     
     public static TaskRecordDO convertToDO(TaskRecord taskRecord) {
+        if (taskRecord == null) {
+            return null;
+        }
         TaskRecordDO taskRecordDO = new TaskRecordDO();
         BeanUtils.copyProperties(taskRecord, taskRecordDO);
         taskRecordDO.setRecordId(Integer.valueOf(taskRecord.getRecordId().getId()));
