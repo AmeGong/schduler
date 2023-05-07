@@ -9,7 +9,7 @@ public enum TaskType {
 
     private String desc;
 
-    TaskType(int maxRetryTime, String desc) {
+    TaskType(int maxRetryTimes, String desc) {
         this.maxRetryTimes = maxRetryTimes;
         this.desc = desc;
     }
@@ -17,17 +17,8 @@ public enum TaskType {
     public int getMaxRetryTimes() {
         return maxRetryTimes;
     }
-
-    public void setMaxRetryTimes(int maxRetryTimes) {
-        this.maxRetryTimes = maxRetryTimes;
-    }
-
     public String getDesc() {
         return desc;
-    }
-
-    public void setDesc(String desc) {
-        this.desc = desc;
     }
 
     public static TaskType getByCode(String code) {

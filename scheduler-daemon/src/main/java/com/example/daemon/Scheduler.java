@@ -17,13 +17,13 @@ public class Scheduler implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         ScheduledThreadPoolExecutor scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(1);
-        scheduledThreadPoolExecutor.schedule(new Runnable(){
+        scheduledThreadPoolExecutor.scheduleAtFixedRate(new Runnable(){
             @Override
             public void run() {
                 taskSplitor.split(new Date());
             }
 
-        }, 10, TimeUnit.SECONDS);
+        }, 3,3, TimeUnit.SECONDS);
     }
 
 }
