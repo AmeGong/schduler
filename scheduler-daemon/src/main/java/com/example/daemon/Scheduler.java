@@ -11,13 +11,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class Scheduler implements InitializingBean {
 
+    private ScheduledThreadPoolExecutor scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(1);
+
     @Autowired
     private TaskSplitor taskSplitor;
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        ScheduledThreadPoolExecutor scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(1);
-        scheduledThreadPoolExecutor.scheduleAtFixedRate(new Runnable(){
+        this.scheduledThreadPoolExecutor.scheduleAtFixedRate(new Runnable(){
             @Override
             public void run() {
                 taskSplitor.split(new Date());
