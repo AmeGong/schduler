@@ -29,7 +29,7 @@ public class TaskSplitorImpl implements TaskSplitor {
 
     @Override
     public void split(Date exeTime) {
-        LOG.debug("start to split task!");
+        LOG.info("start to split task!");
         List<EntityId> entityIds = taskRecordRepository.find(TaskRecord.EXECUTABLE_STATUS, exeTime);
         if (!CollectionUtils.isEmpty(entityIds))  {
             List<List<EntityId>> entitySubLists = batchShuffle(entityIds, SUB_LIST_SIZE);

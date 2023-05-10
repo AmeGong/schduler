@@ -18,13 +18,9 @@ public class Scheduler implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        this.scheduledThreadPoolExecutor.scheduleAtFixedRate(new Runnable(){
-            @Override
-            public void run() {
+        this.scheduledThreadPoolExecutor.scheduleAtFixedRate(()->{
                 taskSplitor.split(new Date());
-            }
-
-        }, 3,3, TimeUnit.SECONDS);
+                }, 0, 3, TimeUnit.SECONDS);
     }
 
 }
