@@ -1,4 +1,4 @@
-package com.example.infrastructure;
+package com.example.test.infrastructure;
 
 import com.example.Bootstrap;
 import com.example.daemon.TaskSplitor;
