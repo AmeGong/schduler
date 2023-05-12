@@ -9,6 +9,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
+    <packaging>jar</packaging>
     <artifactId>scheduler-test</artifactId>
     <name>scheduler-test</name>
 
@@ -42,12 +43,6 @@
             <artifactId>commons-logging</artifactId>
         </dependency>
 
-        <!-- test framework -->
-        <!-- <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-        </dependency> -->
         <dependency>
             <groupId>org.junit.vintage</groupId>
             <artifactId>junit-vintage-engine</artifactId>

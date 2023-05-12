@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration>
     <Properties>
-        <Property name="log_dir">./logs/scheduler</Property>
+        <Property name="log_dir">${sys:log.dir}</Property>
+        <Property name="app_name">${sys:app.name}</Property>
         <Property name="log_pattern">%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</Property>
     </Properties>
     <Appenders>
@@ -9,8 +10,8 @@
             <PatternLayout pattern="${log_pattern}" />
         </Console>
         <RollingFile name="APP_DEFAULT"
-            fileName="${log_dir}/app-default.log"
-            filePattern="${log_dir}/app-default.%d{yyyy-MM-dd}.log" >
+            fileName="${log_dir}/${app_name}/app-default.log"
+            filePattern="${log_dir}/${app_name}/app-default.%d{yyyy-MM-dd}.log" >
             <Policies>
                 <SizeBasedTriggeringPolicy size="20MB" />
                 <TimeBasedTriggeringPolicy />
@@ -19,8 +20,8 @@
         </RollingFile>
 
         <RollingFile name="COMMON_ERROR"
-            fileName="${log_dir}/common-error.log"
-            filePattern="${log_dir}/common-error.%d{yyyy-MM-dd}.log">
+            fileName="${log_dir}/${app_name}/common-error.log"
+            filePattern="${log_dir}/${app_name}/common-error.%d{yyyy-MM-dd}.log">
             <Policies>
                 <SizeBasedTriggeringPolicy size="20MB" />
                 <TimeBasedTriggeringPolicy />
@@ -30,8 +31,8 @@
 
 
         <RollingFile name="DAL_DIGEST"
-            fileName="${log_dir}/dal-digest.log"
-            filePattern="${log_dir}/dal-digest.%d{yyyy-MM-dd}.log">
+            fileName="${log_dir}/${app_name}/dal-digest.log"
+            filePattern="${log_dir}/${app_name}/dal-digest.%d{yyyy-MM-dd}.log">
             <Policies>
                 <SizeBasedTriggeringPolicy size="20MB" />
                 <TimeBasedTriggeringPolicy />

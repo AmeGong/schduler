@@ -8,12 +8,11 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
+    <packaging>jar</packaging>
+    <groupId>com.example</groupId>
     <artifactId>scheduler-types</artifactId>
-    <name>scheduler-types</name>
+    <name>Type Module</name>
     <version>1.0-SNAPSHOT</version>
-    <description>DDDplus</description>
+    <description>Type Module</description>
 
-    <dependencies>
-
-    </dependencies>
 </project>

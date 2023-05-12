@@ -35,9 +35,9 @@ public class TaskExecutorImpl implements TaskExecutor {
         if (CollectionUtils.isEmpty(entityIdList)) {
             return;
         }
-        ThreadPoolExecutor executorPool = ThreadPoolManage.getExecutorPool();
+        ThreadPoolExecutor backgroundPool = ThreadPoolManage.getBackgroundPool();
         for (EntityId entityId : entityIdList) {
-            executorPool.execute(new Runnable() {
+            backgroundPool.execute(new Runnable() {
                 @Override
                 public void run() {
                     doExecute(entityId);

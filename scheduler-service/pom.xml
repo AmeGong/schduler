@@ -8,8 +8,10 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
+    <packaging>jar</packaging>
+    <groupId>com.example</groupId>
     <artifactId>scheduler-service</artifactId>
-    <name>scheduler-service</name>
+    <name>Service Module</name>
 
     <dependencies>
         <dependency>

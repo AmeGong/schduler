@@ -8,7 +8,9 @@
         <artifactId>scheduler</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
+    <packaging>jar</packaging>
 
+    <groupId>com.example</groupId>
     <artifactId>scheduler-daemon</artifactId>
     <name>scheduler-daemon</name>
     <dependencies>

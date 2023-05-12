@@ -63,17 +63,6 @@
         <version>1.0-SNAPSHOT</version>
       </dependency> <!-- third party sdk -->
 
-      <!-- <dependency>
-        <groupId>org.apache.logging.log4j</groupId>
-        <artifactId>slf4j-api</artifactId>
-        <version>${slf4j.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.logging.log4j</groupId>
-        <artifactId>slf4j-jcl</artifactId>
-        <version>${slf4j.version}</version>
-      </dependency> -->
-      <!-- https://mvnrepository.com/artifact/commons-logging/commons-logging -->
       <dependency>
         <groupId>commons-logging</groupId>
         <artifactId>commons-logging</artifactId>
@@ -95,23 +84,11 @@
         <artifactId>validation-api</artifactId>
         <version>${validation-api.version}</version>
       </dependency>
-      <!-- https://mvnrepository.com/artifact/jakarta.validation/jakarta.validation-api -->
-      <!--      <dependency>-->
-      <!--        <groupId>jakarta.validation</groupId>-->
-      <!--        <artifactId>jakarta.validation-api</artifactId>-->
-      <!--        <version>${jakarta.validation-api.version}</version>-->
-      <!--      </dependency>-->
       <dependency>
         <groupId>org.hibernate.validator</groupId>
         <artifactId>hibernate-validator</artifactId>
         <version>${hibernate-validator.version}</version>
       </dependency>
-      <!-- https://mvnrepository.com/artifact/jakarta.el/jakarta.el-api -->
-      <!--      <dependency>-->
-      <!--        <groupId>jakarta.el</groupId>-->
-      <!--        <artifactId>jakarta.el-api</artifactId>-->
-      <!--        <version>${jakarta.el-api.version}</version>-->
-      <!--      </dependency>-->
 
       <dependency>
         <groupId>org.glassfish</groupId>
@@ -167,19 +144,43 @@
         <artifactId>mysql-connector-java</artifactId>
         <version>8.0.28</version>
       </dependency>
-
     </dependencies>
   </dependencyManagement>
+
+  <modules>
+    <module>scheduler-domain</module>
+    <module>scheduler-infrastructure</module>
+    <module>scheduler-main</module>
+    <module>scheduler-test</module>
+    <module>scheduler-types</module>
+    <module>scheduler-daemon</module>
+    <module>scheduler-service</module>
+  </modules>
+
   <build>
     <defaultGoal>package</defaultGoal>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.21.0</version>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.11.0</version>
         <configuration>
-          <skipTests>false</skipTests>
+          <!-- put your configurations here -->
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+            <configuration>
+              <classifier>exec</classifier>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
     <resources>
@@ -191,13 +192,4 @@
       </resource>
     </resources>
   </build>
-  <modules>
-    <module>scheduler-domain</module>
-    <module>scheduler-infrastructure</module>
-    <module>scheduler-main</module>
-    <module>scheduler-test</module>
-    <module>scheduler-types</module>
-    <module>scheduler-daemon</module>
-    <module>scheduler-service</module>
-  </modules>
 </project>
