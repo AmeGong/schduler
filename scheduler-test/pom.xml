@@ -14,8 +14,6 @@
     <name>scheduler-test</name>
 
     <dependencies>
-        <!-- project modules -->
-
         <dependency>
             <groupId>com.example</groupId>
             <artifactId>scheduler-domain</artifactId>
@@ -32,10 +30,6 @@
             <groupId>com.example</groupId>
             <artifactId>scheduler-main</artifactId>
         </dependency>
-
-        <!-- DDDplus -->
-
-
 
         <!-- logging -->
         <dependency>

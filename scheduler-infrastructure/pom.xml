@@ -14,7 +14,7 @@
 
     <artifactId>scheduler-infrastructure</artifactId>
     <name>scheduler-infrastructure</name>
-    <description>Infrastructure Layer</description>
+    <description>Infrastructure Module</description>
 
     <dependencies>
         <dependency>

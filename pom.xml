@@ -178,6 +178,7 @@
             </goals>
             <configuration>
               <classifier>exec</classifier>
+              <mainClass>com.example.Bootstrap</mainClass>
             </configuration>
           </execution>
         </executions>

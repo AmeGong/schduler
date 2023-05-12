@@ -3,8 +3,6 @@ package com.example.infrastructure;
 import com.example.Bootstrap;
 import com.example.daemon.TaskSplitor;
 import com.example.domain.entity.TaskRecord;
-import com.example.infra.dao.auto.TaskRecordMapper;
-import com.example.infra.po.TaskRecordDO;
 import com.example.infra.repository.TaskRecordRepository;
 import com.example.types.enums.TaskStatus;
 import com.example.types.enums.TaskType;
@@ -29,8 +27,6 @@ public class TaskRecordRepositoryTest {
     @Autowired
     private TaskRecordRepository taskRecordRepository;
 
-    // @Autowired
-    // private TaskRecordMapper taskRecordMapper;
     @Autowired
     private TransactionTemplate transactionTemplate;
 
@@ -43,16 +39,7 @@ public class TaskRecordRepositoryTest {
         taskRecord.setTaskContext("taskContext");
         taskRecord.setTaskType(TaskType.DEMO);
         taskRecord.setTaskStatus(TaskStatus.INITIAL);
-        transactionTemplate.execute(new TransactionCallbackWithoutResult() {
-
-            @Override
-            protected void doInTransactionWithoutResult(TransactionStatus status) {
-                // TODO Auto-generated method stub
-                taskRecordRepository.save(taskRecord);
-            }
-
-        });
-        // taskRecordRepository.save(null);
+        taskRecordRepository.save(taskRecord);
     }
 
     @Test
