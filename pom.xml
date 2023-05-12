@@ -61,7 +61,13 @@
         <groupId>com.example</groupId>
         <artifactId>scheduler-main</artifactId>
         <version>1.0-SNAPSHOT</version>
-      </dependency> <!-- third party sdk -->
+      </dependency>
+      <dependency>
+        <groupId>com.example</groupId>
+        <artifactId>scheduler-test</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <scope>test</scope>
+      </dependency><!-- third party sdk -->
 
       <dependency>
         <groupId>commons-logging</groupId>
@@ -165,6 +171,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.11.0</version>
         <configuration>
+          <skip>true</skip>
+          <outputDirectory>./target</outputDirectory>
           <!-- put your configurations here -->
         </configuration>
       </plugin>
