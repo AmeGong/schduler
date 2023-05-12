@@ -10,7 +10,6 @@
     </parent>
 
     <packaging>jar</packaging>
-    <groupId>com.example</groupId>
     <artifactId>scheduler-main</artifactId>
     <name>scheduler-main</name>
 

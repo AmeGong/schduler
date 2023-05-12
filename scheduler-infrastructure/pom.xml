@@ -12,7 +12,6 @@
         <mybatis.generator.overwrite>true</mybatis.generator.overwrite>
      </properties>
 
-    <groupId>com.example</groupId>
     <artifactId>scheduler-infrastructure</artifactId>
     <name>scheduler-infrastructure</name>
     <description>Infrastructure Layer</description>

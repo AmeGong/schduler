@@ -9,7 +9,6 @@
     </parent>
 
     <packaging>jar</packaging>
-    <groupId>com.example</groupId>
     <artifactId>scheduler-types</artifactId>
     <name>Type Module</name>
     <version>1.0-SNAPSHOT</version>
