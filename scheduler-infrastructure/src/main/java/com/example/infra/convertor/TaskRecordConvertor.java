@@ -19,7 +19,9 @@ public class TaskRecordConvertor {
         }
         TaskRecordDO taskRecordDO = new TaskRecordDO();
         BeanUtils.copyProperties(taskRecord, taskRecordDO);
-        taskRecordDO.setRecordId(Integer.valueOf(taskRecord.getRecordId().getId()));
+        if (taskRecord.getRecordId() != null) {
+            taskRecordDO.setRecordId(Integer.valueOf(taskRecord.getRecordId().getId()));
+        }
         taskRecordDO.setTaskType(taskRecord.getTaskType().name());
         taskRecordDO.setTaskStatus(taskRecord.getTaskStatus().name());
         return taskRecordDO;
