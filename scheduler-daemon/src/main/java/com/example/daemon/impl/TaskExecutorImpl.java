@@ -1,8 +1,10 @@
 package com.example.daemon.impl;
 
 import java.util.List;
+import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.ThreadPoolExecutor;
 
+import com.example.domain.util.LogDef;
 import com.example.types.exception.SchedulerRetryableException;
 import com.example.types.exception.SchedulerUnretryableException;
 import com.google.common.util.concurrent.RateLimiter;
@@ -37,14 +39,19 @@ public class TaskExecutorImpl implements TaskExecutor {
         }
         ThreadPoolExecutor backgroundPool = ThreadPoolManage.getBackgroundPool();
         for (EntityId entityId : entityIdList) {
-            backgroundPool.execute(new Runnable() {
-                @Override
-                public void run() {
-                    doExecute(entityId);
-                }
-            });
+            try {
+                backgroundPool.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        doExecute(entityId);
+                    }
+                });
+            } catch (RejectedExecutionException rje) {
+                LogDef.COMMON_ERROR.error(String.format("Task Record is rejected. Record Id:%s", entityId.getId()));
+            }
 
         }
+        LOG.info("Task Executor finish a batch.");
     }
 
     private void doExecute(EntityId entityId) {

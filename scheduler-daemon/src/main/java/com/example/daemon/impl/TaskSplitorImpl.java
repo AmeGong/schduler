@@ -33,11 +33,10 @@ public class TaskSplitorImpl implements TaskSplitor {
     public void split(Date exeTime) {
         LOG.info("start to split task!");
         List<EntityId> entityIds = taskRecordRepository.find(TaskRecord.EXECUTABLE_STATUS, exeTime);
-        ThreadPoolExecutor executorPool = ThreadPoolManage.getExecutorPool();
         if (!CollectionUtils.isEmpty(entityIds))  {
             List<List<EntityId>> entitySubLists = batchShuffle(entityIds, SUB_LIST_SIZE);
             for (List<EntityId> subList : entitySubLists) {
-                executorPool.execute(()->{taskExecutor.execute(subList);});
+                taskExecutor.execute(subList);
             }
         }
     }

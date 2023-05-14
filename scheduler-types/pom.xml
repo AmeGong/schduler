@@ -10,7 +10,7 @@
 
     <packaging>jar</packaging>
     <artifactId>scheduler-types</artifactId>
-    <name>Type Module</name>
+    <name>scheduler-types</name>
     <version>1.0-SNAPSHOT</version>
     <description>Type Module</description>
 

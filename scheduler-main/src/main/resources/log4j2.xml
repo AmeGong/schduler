@@ -2,7 +2,7 @@
 <Configuration>
     <Properties>
         <Property name="log_dir">${sys:log.dir}</Property>
-        <Property name="app_name">${sys:app.name}</Property>
+        <Property name="app_name">scheduler</Property>
         <Property name="log_pattern">%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</Property>
     </Properties>
     <Appenders>
