@@ -168,28 +168,51 @@
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.11.0</version>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.2</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compile-plugin</artifactId>
+        <version>3.3</version>
         <configuration>
-          <skip>true</skip>
-          <outputDirectory>./target</outputDirectory>
-          <!-- put your configurations here -->
+          <source>17</source>
+          <target>17</target>
+          <encoding>UTF-8</encoding>
         </configuration>
       </plugin>
       <plugin>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-maven-plugin</artifactId>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.8.1</version>
+        <configuration>
+          <threadCount>1</threadCount>
+          <source>17</source>
+          <target>17</target>
+          <encoding>UTF-8</encoding>
+          <skipTests>true</skipTests>    <!--默认关掉单元测试 -->
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>2.0.2</version>
         <executions>
           <execution>
+            <id>attach-sources</id>
             <goals>
-              <goal>repackage</goal>
+              <goal>jar</goal>
             </goals>
-            <configuration>
-              <classifier>exec</classifier>
-              <mainClass>com.example.Bootstrap</mainClass>
-            </configuration>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-eclipse-plugin</artifactId>
+        <version>2.6</version>
+        <configuration>
+          <downloadSources>true</downloadSources>
+        </configuration>
       </plugin>
     </plugins>
     <resources>
