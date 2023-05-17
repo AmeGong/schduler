@@ -57,7 +57,7 @@
             <AppenderRef ref="APP_DEFAULT" />
         </Root>
 
-        <Logger name="org.springframework" level="info">
+        <Logger name="org.springframework" additivity="false" level="info">
             <AppenderRef ref="SPRING_LOG" />
         </Logger>
 
