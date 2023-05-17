@@ -11,7 +11,7 @@
         </Console>
         <RollingFile name="APP_DEFAULT"
             fileName="${log_dir}/${app_name}/app-default.log"
-            filePattern="${log_dir}/${app_name}/app-default.%d{yyyy-MM-dd}.log" >
+            filePattern="${log_dir}/${app_name}/app-default.%d{yyyy-MM-dd}.log">
             <Policies>
                 <SizeBasedTriggeringPolicy size="20MB" />
                 <TimeBasedTriggeringPolicy />
@@ -22,6 +22,16 @@
         <RollingFile name="COMMON_ERROR"
             fileName="${log_dir}/${app_name}/common-error.log"
             filePattern="${log_dir}/${app_name}/common-error.%d{yyyy-MM-dd}.log">
+            <Policies>
+                <SizeBasedTriggeringPolicy size="20MB" />
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+            <PatternLayout pattern="${log_pattern}" />
+        </RollingFile>
+
+        <RollingFile name="SPRING_LOG"
+            fileName="${log_dir}/${app_name}/spring.log"
+            filePattern="${log_dir}/${app_name}/spring.%d{yyyy-MM-dd}.log">
             <Policies>
                 <SizeBasedTriggeringPolicy size="20MB" />
                 <TimeBasedTriggeringPolicy />
@@ -46,6 +56,10 @@
             <AppenderRef ref="CONSOLE" />
             <AppenderRef ref="APP_DEFAULT" />
         </Root>
+
+        <Logger name="org.springframework" level="info">
+            <AppenderRef ref="SPRING_LOG" />
+        </Logger>
 
         <Logger name="DAL_DIGEST" additivity="false" level="info">
             <AppenderRef ref="DAL_DIGEST" />
