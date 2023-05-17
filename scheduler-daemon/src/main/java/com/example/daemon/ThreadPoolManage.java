@@ -1,12 +1,8 @@
 package com.example.daemon;
 
-import java.util.concurrent.Executors;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-
-import org.springframework.scheduling.concurrent.ThreadPoolExecutorFactoryBean;
-import org.springframework.stereotype.Component;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 

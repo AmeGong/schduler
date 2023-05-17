@@ -65,6 +65,10 @@ public class TaskRecord implements BaseEntity<RecordId> {
                 (exeTimes <= taskType.getMaxRetryTimes());
     }
 
+    /**
+     * The execute method should be idempotent
+     * @return
+     */
     public boolean execute() {
         TaskProcessorSpi taskProcessor = TaskProcessorSpiFactory.get(taskType);
         exeTimes++;

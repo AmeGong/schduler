@@ -7,6 +7,11 @@ public interface TaskProcessorSpi {
 
     TaskType supportTaskType();
 
+    /**
+     * this method should be idempotent
+     * @param taskRecord
+     * @return
+     */
     boolean process(TaskRecord taskRecord);
     
 }
