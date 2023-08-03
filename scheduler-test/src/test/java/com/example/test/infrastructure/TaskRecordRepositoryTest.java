@@ -1,7 +1,7 @@
 package com.example.test.infrastructure;
 
 import com.example.Bootstrap;
-import com.example.daemon.TaskSplitor;
+import com.example.daemon.TaskSplitorImpl;
 import com.example.domain.entity.TaskRecord;
 import com.example.infra.repository.TaskRecordRepository;
 import com.example.types.enums.TaskStatus;
@@ -29,7 +29,7 @@ public class TaskRecordRepositoryTest {
     private TransactionTemplate transactionTemplate;
 
     @Autowired
-    private TaskSplitor taskSplitor;
+    private TaskSplitorImpl taskSplitor;
 
     @Test
     public void saveTest() {
